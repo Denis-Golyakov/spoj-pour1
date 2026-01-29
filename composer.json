@@ -1,0 +1,20 @@
+{
+  "name": "denis-golyakov/spoj-pour1",
+  "description": "PHP solution for the SPOJ POUR1 (Pouring Water) problem, featuring automated unit tests and a greedy simulation algorithm.",
+  "type": "project",
+  "require": {
+    "phpunit/phpunit": "^12.5"
+  },
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "SpojPour1\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Denis Golyakov",
+      "email": "denis@golyakov.com"
+    }
+  ]
+}
