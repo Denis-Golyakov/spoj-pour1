@@ -1,12 +1,23 @@
 <?php
+
 namespace SpojPour1\Solver;
 
-use SpojPour1\Math\MathHelper;
+use SpojPour1\Math\GcdCalculatorInterface;
+use SpojPour1\Math\CachedGcdCalculator;
+use SpojPour1\Math\EuclideanGcdCalculator;
 
 class PourSolver
 {
+    private GcdCalculatorInterface $gcdCalculator;
+
+    public function __construct(?GcdCalculatorInterface $gcdCalculator = null)
+    {
+        $gcdCalculator ??= new EuclideanGcdCalculator();
+        $this->gcdCalculator = new CachedGcdCalculator($gcdCalculator);
+    }
+
     /**
-     * Returns either the minimum number of attempts required to reach a target capacity 
+     * Returns either the minimum number of attempts required to reach a target capacity
      * in either of two vessels or -1 if it is impossible.
      *
      * @param int $capacityA The capacity of the first vessel.
@@ -18,14 +29,19 @@ class PourSolver
     public function solve(int $capacityA, int $capacityB, int $capacityC): int
     {
         // Impossible to fill the containers
-        if ($capacityC > $capacityA && $capacityC > $capacityB)
+        if ($capacityC > $capacityA && $capacityC > $capacityB) {
             return -1;
-        if ($capacityC % MathHelper::greatestCommonDivisor($capacityA, $capacityB) !== 0)
+        }
+
+        $gcd = $this->gcdCalculator->calculate($capacityA, $capacityB);
+        if ($capacityC % $gcd !== 0) {
             return -1;
+        }
 
         // One of the containers' capacity is equal to the target capacity
-        if ($capacityA === $capacityC || $capacityB === $capacityC)
+        if ($capacityA === $capacityC || $capacityB === $capacityC) {
             return 1;
+        }
 
         // Calculate the minimum number of attempts
         return min(
@@ -35,7 +51,7 @@ class PourSolver
     }
 
     /**
-     * Returns the number of attempts required to reach a target capacity in either of 
+     * Returns the number of attempts required to reach a target capacity in either of
      * two vessels.
      *
      * @param int $capacityA The capacity of the first vessel.
@@ -63,11 +79,12 @@ class PourSolver
 
             if ($vesselA === 0) {
                 $vesselA = $capacityA; // Refill vessel A
+                $try++;
             }
             if ($vesselB === $capacityB) {
                 $vesselB = 0; // Empty vessel B
+                $try++;
             }
-            $try++;
         }
 
         return $try;
