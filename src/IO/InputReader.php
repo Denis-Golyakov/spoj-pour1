@@ -1,13 +1,19 @@
 <?php
+
 namespace SpojPour1\IO;
 
 class InputReader
 {
+    public function __construct(
+        private $inputStream = STDIN
+    ) {
+    }
+
     /**
      * Process input of the data
      *
-     * An integer t, 1 ≤ t ≤ 100, denoting the number of test cases, followed 
-     * by t sets of input data, each consisting of three positive integers a, b, c, 
+     * An integer t, 1 ≤ t ≤ 100, denoting the number of test cases, followed
+     * by t sets of input data, each consisting of three positive integers a, b, c,
      * not larger than 40000, given in separate lines
      *
      * @return array The test cases as an array of arrays, each containing three
@@ -40,13 +46,18 @@ class InputReader
      *
      * @throws \Exception If the input integer is not within the given range.
      */
-    private static function readIntegerInput(int $minValue = 0, int $maxValue = PHP_INT_MAX): int
+    private function readIntegerInput(int $minValue = 0, int $maxValue = PHP_INT_MAX): int
     {
-        $inputValue = intval(trim(fgets(STDIN)));
+        $inputValue = intval(trim(fgets($this->inputStream)));
 
         if ($inputValue < $minValue || $inputValue > $maxValue) {
             throw new \InvalidArgumentException(
-                'Input must be within the range of ' . $minValue . ' and ' . $maxValue
+                sprintf(
+                    'Input must be within the range of %d and %d, got %d',
+                    $minValue,
+                    $maxValue,
+                    $inputValue
+                )
             );
         }
 
