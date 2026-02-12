@@ -11,10 +11,18 @@
       "SpojPour1\\": "src/"
     }
   },
+  "scripts": {
+    "lint": "phpcs --standard=PSR12 src/ *.php",
+    "lint-fix": "phpcbf --standard=PSR12 src/ *.php",
+    "test": "phpunit"
+  },
   "authors": [
     {
       "name": "Denis Golyakov",
       "email": "denis@golyakov.com"
     }
-  ]
+  ],
+  "require-dev": {
+    "squizlabs/php_codesniffer": "*"
+  }
 }
