@@ -2,7 +2,7 @@
 
 namespace SpojPour1\Math;
 
-class MathHelper
+class EuclideanGcdCalculator implements GcdCalculatorInterface
 {
     /**
      * Calculates the greatest common divisor of two integers using the Euclidean
@@ -13,12 +13,12 @@ class MathHelper
      *
      * @return int The greatest common divisor of the two integers.
      */
-    public static function greatestCommonDivisor(int $a, int $b): int
+    public function calculate(int $a, int $b): int
     {
         if ($b === 0) { // Prevent division by zero
             return $a;
         }
 
-        return ($a % $b) ? self::greatestCommonDivisor($b, $a % $b) : $b;
+        return ($a % $b) ? $this->calculate($b, $a % $b) : $b;
     }
 }

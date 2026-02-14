@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Entry point
  */
@@ -14,8 +15,8 @@ function main(): void
 /**
  * Process input of the data
  *
- * An integer t, 1 ≤ t ≤ 100, denoting the number of test cases, followed 
- * by t sets of input data, each consisting of three positive integers a, b, c, 
+ * An integer t, 1 ≤ t ≤ 100, denoting the number of test cases, followed
+ * by t sets of input data, each consisting of three positive integers a, b, c,
  * not larger than 40000, given in separate lines
  *
  * @return array The test cases as an array of arrays, each containing three
@@ -62,7 +63,7 @@ function readIntegerInput(int $minValue = 0, int $maxValue = PHP_INT_MAX): int
 }
 
 /**
- * Returns either the minimum number of attempts required to reach a target capacity 
+ * Returns either the minimum number of attempts required to reach a target capacity
  * in either of two vessels or -1 if it is impossible.
  *
  * @param int $capacityA The capacity of the first vessel.
@@ -74,14 +75,17 @@ function readIntegerInput(int $minValue = 0, int $maxValue = PHP_INT_MAX): int
 function solve(int $capacityA, int $capacityB, int $capacityC): int
 {
     // Impossible to fill the containers
-    if ($capacityC > $capacityA && $capacityC > $capacityB)
+    if ($capacityC > $capacityA && $capacityC > $capacityB) {
         return -1;
-    if ($capacityC % gcd($capacityA, $capacityB) !== 0)
+    }
+    if ($capacityC % gcd($capacityA, $capacityB) !== 0) {
         return -1;
+    }
 
     // One of the containers' capacity is equal to the target capacity
-    if ($capacityA === $capacityC || $capacityB === $capacityC)
+    if ($capacityA === $capacityC || $capacityB === $capacityC) {
         return 1;
+    }
 
     // Calculate the minimum number of attempts
     return min(
@@ -91,7 +95,7 @@ function solve(int $capacityA, int $capacityB, int $capacityC): int
 }
 
 /**
- * Returns the number of attempts required to reach a target capacity in either of 
+ * Returns the number of attempts required to reach a target capacity in either of
  * two vessels.
  *
  * @param int $capacityA The capacity of the first vessel.
@@ -119,11 +123,12 @@ function pour(int $capacityA, int $capacityB, int $capacityC): int
 
         if ($vesselA === 0) {
             $vesselA = $capacityA; // Refill vessel A
+            $try++;
         }
         if ($vesselB === $capacityB) {
             $vesselB = 0; // Empty vessel B
+            $try++;
         }
-        $try++;
     }
 
     return $try;
